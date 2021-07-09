@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.Vector;
 import java.util.ArrayList;
 
@@ -28,7 +30,7 @@ public class DataTable {
      */
     public DataTable(String columnNames, String separator)
     {
-        String[] colNames = columnNames.split(separator, 0);
+        String[] colNames = columnNames.split("["+separator+"]", 0);
         columns = new LinkedHashMap<String, Integer>();
         rows = new Vector<LinkedList<Object>>();
 
@@ -42,7 +44,7 @@ public class DataTable {
      */
     public DataTable(String columnNames)
     {
-        String[] colNames = columnNames.split(",", 0);
+        String[] colNames = columnNames.split("[,]", 0);
         columns = new LinkedHashMap<String, Integer>();
         rows = new Vector<LinkedList<Object>>();
 
@@ -81,6 +83,7 @@ public class DataTable {
      */
     public Object[] getRow(Integer rowNum) throws IndexOutOfBoundsException
     {
+        if(rowNum == null) return null;
         if(rows == null || columns == null) return null;
         if(rowNum < 0 || rowNum >= rows.size())
             throw new IndexOutOfBoundsException();
@@ -167,7 +170,7 @@ public class DataTable {
      */
     public DataTable addColumn(String colName)
     {
-        if(columns.containsKey(colName) || colName.isEmpty())
+        if(colName == null || columns.containsKey(colName) || colName.isEmpty())
             return this;
         
         Integer max = -1;
@@ -209,6 +212,8 @@ public class DataTable {
      */
     public DataTable renameColumn(String oldName, String newName)
     {
+        if(oldName == null || newName == null)
+            return this;
         if(!columns.containsKey(oldName) || columns.containsKey(newName) || oldName.isEmpty() || newName.isEmpty())
             return this;
         
@@ -222,15 +227,11 @@ public class DataTable {
      * Gets all columns names.
      * @return Array of columns names.
      */
-    public String[] getColNames()
+    public Set<String> getColNames()
     {
-        Integer i = 0;
-        String res[] = new String[columns.size()];
+        LinkedHashSet<String> res = new LinkedHashSet<>();
         for(String colName: columns.keySet())
-        {
-            res[i] = colName;
-            i++;
-        }
+            res.add(colName);
 
         return res;
     }
@@ -242,6 +243,8 @@ public class DataTable {
      */
     public DataTable addRow(Collection<Object> row)
     {
+        if(row == null)
+            return this;
         Object[] newRow = new Object[this.getRowLength()];
         Iterator<Object> it = row.iterator();
         for(Integer i = 0; i < this.getRowLength(); i++)
@@ -263,6 +266,8 @@ public class DataTable {
      */
     public DataTable addAll(Collection<? extends Collection<Object>> listOfRows)
     {
+        if(listOfRows == null)
+            return this;
         LinkedList<LinkedList<Object>> rowsList = new LinkedList<LinkedList<Object>>();
         ArrayList<Object> row = new ArrayList<Object>(this.getRowLength());
         for(int i = 0; i < this.getRowLength(); i++)
@@ -328,7 +333,7 @@ public class DataTable {
     }
 
     /**
-     * Removes the last inserted row. 
+     * Removes the last row.
      */
     public DataTable removeRow()
     {
@@ -344,6 +349,8 @@ public class DataTable {
         String table = "";
         String currRow = "";
         int colWidth = 15;
+        int NUMERATION = 10;
+        header += String.format("|%" + NUMERATION + "." + NUMERATION + "s|", "#");
         for(String colName: columns.keySet())
         {
             header += String.format("|%" + colWidth + "." + colWidth + "s|", colName);
@@ -358,10 +365,11 @@ public class DataTable {
         table += '\n';
         
         
-        
+        long idx = 1;
         for(LinkedList<Object> row: rows)
         {
             currRow = "";
+            currRow += String.format("|%" + NUMERATION + "." + NUMERATION + "s|", idx);
             for(String colName: columns.keySet())
             {
                 currRow += String.format("|%" + colWidth + "." + colWidth + "s|", row.get(columns.get(colName)));
@@ -369,6 +377,7 @@ public class DataTable {
             
             table += currRow;
             table += '\n';
+            idx++;
         }
 
         return table;

@@ -1,4 +1,4 @@
-package uz.app;
+package uz.app.DataTable;
 
 import java.util.Arrays;
 import java.util.Collection;

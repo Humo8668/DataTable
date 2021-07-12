@@ -1,16 +1,12 @@
-package Test;
+package uz.app.DataTable;
 
 import java.io.PrintStream;
-
-import uz.app.DataTable;
 
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.LinkedList;
 import java.util.Random;
-
-import javax.xml.crypto.Data;
 
 public class TestDataTable {
     static PrintStream log = System.out;

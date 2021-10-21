@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch TestDataTable",
+            "request": "launch",
+            "mainClass": "uz.app.DataTable.TestDataTable",
+            "projectName": "DataTable"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "uz.app.DataTable.App",
+            "projectName": "DataTable"
+        },
+        {
+            "type": "java",
             "args": "-ea",
             "vmArgs": "-ea",
             "name": "Launch Current File",

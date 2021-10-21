@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.8.1
 Created-By: Humoyun
-Main-Class: ru.urvanov.javaexamples.springjavamailsenderimpl.App
+Main-Class: uz.app.DataTable.TestDataTable
